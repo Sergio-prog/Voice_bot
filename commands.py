@@ -1,5 +1,7 @@
 import datetime
 import random
+import sys
+import time
 
 import google
 import googletrans
@@ -43,11 +45,26 @@ def hi(*args):
 
 
 def ctime(*args):
-    tts.talk("Сейчас: " + str(datetime.datetime.now().strftime("%H:%M:%S")))
+    tts.talk("Сейчас: " + str(datetime.datetime.now().strftime("%H:%M:%S")), is_print=True)
 
 
 def joke(*args):
     tts.talk(anecAPI.random_joke(), is_print=True)
+
+
+def btc_price(*args):
+    response = requests.get(
+        'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&precision=0')
+    data = response.json()
+    response.close()
+    price = str(data['bitcoin']['usd']) + "$"
+    tts.talk(price, True)
+
+
+def exit(*args):
+    tts.talk("Пока!")
+    # time.sleep(1)
+    sys.exit()
 
 
 # TODO: BTC price, random,
